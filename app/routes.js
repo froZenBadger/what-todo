@@ -38,6 +38,32 @@ module.exports = function (app) {
 
     });
 
+    // update a todo - NOT being used
+    app.put('/api/todos/:todo_id', function (req, res) {
+      var db = req.db;
+      var updateTodo = req.body;
+      delete updateTodo._id;
+      delete updateTodo.text;
+
+      db.collection("Todo").updateOne({_id: new ObjectID(req.params.id)}, updateTodo,
+        function(err, data) {
+          if (err) {
+            handleError(res, err.message, "Failed to update todo");
+          } else {
+            getTodos(res);
+            res.status(204).end();
+          }
+        });
+      });
+    //   Todo.update({_id: req.params.todo_id}, bool,
+    //     function (err, todo) {
+    //       if (err) {
+    //           res.send(err);
+    //       }
+    //       res.send(todo);
+    //     });
+    // });
+
     // delete a todo
     app.delete('/api/todos/:todo_id', function (req, res) {
         Todo.remove({

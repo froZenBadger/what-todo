@@ -40,3 +40,10 @@ a {
 a:hover {
   color: white;
 }
+
+.completed {
+  color: black;
+}
+.expired {
+  color: gray;
+}

@@ -29,20 +29,43 @@
 		</div>
 
 		<div id="todo-list" class="row">
-			<div class="col-sm-4 col-sm-offset-4">
+      <div class="alert alert-info text-center" ng-hide="todos.length > 0">
+          <h3>No Todos yet!</h3>
+      </div>
+			<div class="col-sm-4">
+				<div ng-repeat="todo in todos">
+					<div class="expired" ng-show="(expired(todo) && !completed(todo))">
+						<h4>Expired To-do's</h4>
+						<ul>
+							<li>{{ todo.text}}</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="col-sm-4">
 				<div class="checkbox" ng-repeat="todo in todos">
-					<label>
-						<input type="checkbox" ng-click="deleteTodo(todo._id)"> {{ todo.text }}
-						<p>{{ todo.created_at }}</p>
+					<label ng-show="!completed(todo)">
+						<input type="checkbox" ng-model="todo.completed" ng-checked="checked">
+						{{ todo.text }}
 					</label>
 				</div>
-
 				<p class="text-center" ng-show="loading">
 					<span class="fa fa-spinner fa-spin fa-3x"></span>
 				</p>
-
+			</div>
+			<div class="col-sm-4">
+				<div ng-repeat="todo in todos">
+					<div class="completed" ng-show="completed(todo)">
+						<h4>Completed To-do's</h4>
+						<ul>
+							<input type="checkbox" ng-model="todo.completed">
+								{{ todo.text}}
+						</ul>
+					</div>
+				</div>
 			</div>
 		</div>
+
 
 		<div id="todo-form" class="row">
 			<div class="col-sm-8 col-sm-offset-2 text-center">
