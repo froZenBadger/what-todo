@@ -54,9 +54,9 @@
 				</p>
 			</div>
 			<div class="col-sm-4">
+				<h4>Completed To-do's</h4>
 				<div ng-repeat="todo in todos">
 					<div class="completed" ng-show="completed(todo)">
-						<h4>Completed To-do's</h4>
 						<ul>
 							<input type="checkbox" ng-model="todo.completed">
 								{{ todo.text}}
