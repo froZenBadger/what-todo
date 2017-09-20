@@ -45,25 +45,21 @@ angular.module('todoController', [])
 				});
 		};
 
-		//$scope.archiveTodo = function(todo._id, todo.completed) {
 		$scope.archiveTodo = function(todo){
-			$scope.loading = false;
-			console.log(todo);
-			Todos.update(todo._id, todo.completed)
+			$scope.loading = true;
+			var status = {completed: todo.completed};
+			Todos.update(todo._id, status)
 				.success(function(data) {
-					// $scope.loading = false;
-					// $scope.todos = data;
+					$scope.loading = false;
 				})
 				.error(function(data) {
 					console.log('Error: ' + data);
 				});
 		};
 
-// Return true if todo is completed
 		$scope.completed = function(todo) {
 			return todo.completed == true;
 		}
-
 
 		$scope.showMe = true;
 		$scope.showYou = true;

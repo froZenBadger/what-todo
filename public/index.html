@@ -35,8 +35,9 @@
       </div>
 			<!-- Expired Todos Div -->
 			<div class="col-sm-4 expireds">
-				<button ng-click="showYou=!showYou">Toggle</button>
+				<div ng-hide="showYou"><button ng-click="showYou=!showYou">Show</button></div>
 				<div ng-show="showYou">
+					<button ng-click="showYou=!showYou">Hide</button>
 					<h4>Expired To-do's</h4>
 					<div ng-repeat="todo in todos">
 						<div class="expired" ng-show="expired(todo)">
@@ -54,7 +55,7 @@
 			<div class="col-sm-4">
 				<div class="checkbox" ng-repeat="todo in todos">
 					<label ng-show="!completed(todo)">
-						<input type="checkbox" ng-model="todo.completed" ng-checked="todo.completed">
+						<input type="checkbox" ng-model="todo.completed" ng-checked="todo.completed" ng-change="archiveTodo(todo)">
 						{{ todo.text }}<br>
 						Priority: {{ todo.priority }}<br>
 						Due: {{ todo.due_date }}
@@ -67,8 +68,9 @@
 			<!-- Completed Todos Div -->
 			<div class="col-sm-4 completeds">
 				<!-- ng-hide="noneCompleted(todos) -->
-				<button ng-click="showMe=!showMe">Toggle</button>
+				<div ng-hide="showMe"><button ng-click="showMe=!showMe">Show</button></div>
 				<div ng-show="showMe">
+					<button ng-click="showMe=!showMe">Hide</button>
 					<h4>Completed To-do's</h4>
 					<div ng-repeat="todo in todos">
 						<div ng-show="completed(todo)">
