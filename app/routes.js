@@ -39,31 +39,22 @@ module.exports = function (app) {
 
     });
 
-    // update a todo - NOT being used
-    app.put('/api/todos/:todo_id', function (req, res) {
-      var db = req.db;
-      var updateTodo = req.body;
-      delete updateTodo._id;
-      delete updateTodo.text;
-
-      db.collection("Todo").updateOne({_id: new ObjectID(req.params.id)}, updateTodo,
-        function(err, data) {
+    app.put('/api/todos/:id', function (req, res) {
+      Todo.findByIdAndUpdate(req.params.id,
+        {
+          $set: {completed: req.body.completed}
+        },
+        {
+          new: true
+        },
+        function (err, todo) {
           if (err) {
-            handleError(res, err.message, "Failed to update todo");
+              res.send(err, "Error updating todo");
           } else {
-            getTodos(res);
-            res.status(204).end();
+              res.json(todo);
           }
         });
-      });
-    //   Todo.update({_id: req.params.todo_id}, bool,
-    //     function (err, todo) {
-    //       if (err) {
-    //           res.send(err);
-    //       }
-    //       res.send(todo);
-    //     });
-    // });
+    });
 
     // delete a todo
     app.delete('/api/todos/:todo_id', function (req, res) {
