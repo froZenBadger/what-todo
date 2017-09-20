@@ -7,6 +7,7 @@ angular.module('todoController', [])
 		Todos.get()
 			.success(function(data) {
 				$scope.todos = data;
+				console.log(data);
 				$scope.loading = false;
 			})
 			.error(function(data) {
@@ -43,45 +44,69 @@ angular.module('todoController', [])
 					console.log('Error: ' + data);
 				});
 		};
-//Not being used
-		$scope.archiveTodo = function(id, isCom) {
-			$scope.loading = false;
-			var status = {"completed":isCom}
 
-			Todos.update(id, status)
+		//$scope.archiveTodo = function(todo._id, todo.completed) {
+		$scope.archiveTodo = function(todo){
+			$scope.loading = false;
+			console.log(todo);
+			Todos.update(todo._id, todo.completed)
 				.success(function(data) {
 					// $scope.loading = false;
-					$scope.todos = data;
+					// $scope.todos = data;
 				})
 				.error(function(data) {
 					console.log('Error: ' + data);
 				});
 		};
 
-// Code for determining whether todo is expired or active
-		$scope.currentTime = new Date().getTime();
-		var seven_days = 604800000;
-
-// Return true if todo is expired
-		$scope.expired = function(task) {
-      var currentTime = new Date().getTime();
-      return ( ((task.createdAt + seven_days) - currentTime) <= 0 )
-    }
-
 // Return true if todo is completed
-		$scope.completed = function(task) {
-			return task.completed == true
+		$scope.completed = function(todo) {
+			return todo.completed == true;
 		}
 
-		//Testing for updated todo list when checkbox is checked
-		$scope.checked = function(){
-			Todos.get()
-				.success(function(data) {
-					$scope.todos = data;
-					$scope.loading = false;
-				})
-				.error(function(data) {
-					console.log('Error: ' + data);
-				});
-		}
+
+		$scope.showMe = true;
+		$scope.showYou = true;
+
+//////////////////////// Features in progress
+
+		// 1) Return true when no todos are completed
+				$scope.noneCompleted = function(todos) {
+					console.log(todos);
+					for (var i = 0; i < todos.length; i++) {
+						if (todos[i].completed == true) {
+							return false;
+						} else {
+							return true;
+						}
+					}
+				};
+
+		// 2) Show expired tasks
+				// Return true if todo is expired i.e. more than 7 days old
+				$scope.expired = function(todo) {
+					//in millisecs with logic #1
+					var sevenDaysInMilliSecs = 604800000;
+					var currentTime = Date.now();
+					var sevenDaysAgo = currentTime - sevenDaysInMilliSecs;
+					return (todo.created_at <= sevenDaysAgo);
+					// In secs with logic #2
+					// var sevenDaysInSecs = 604800;
+					// var currentTime = Date.now();
+					// return ( (((todo.created_at/1000) + sevenDaysInSecs) - (currentTime/1000)) <= 0 );
+				}
+
+		// 3) Badge counter of active tasks
+				$scope.numberOfActiveTodos = function(todos) {
+					var numberActive = 0;
+					for (var i = 0; i < todos.length; i++) {
+						if (todos[i].completed == false) {
+							if (!expired(todos[i])) {
+									numberActive++;
+							}
+						}
+					}
+					return numberActive;
+				};
+
 	}]);

@@ -7,7 +7,7 @@ module.exports = mongoose.model('Todo', {
     },
     created_at: {
       type: Date,
-      default: Date.now
+      default: Date.now()
     },
     completed: {
       type: Boolean,

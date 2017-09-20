@@ -26,26 +26,35 @@
 
 		<div class="jumbotron text-center">
 			<h1>what To-Do <span class="badge">{{ todos.length }}</span></h1>
+			<!-- <span class="badge">{{ numberOfActiveTodos(todos) }}</span> -->
 		</div>
 
 		<div id="todo-list" class="row">
       <div class="alert alert-info text-center" ng-hide="todos.length > 0">
           <h3>No Todos yet!</h3>
       </div>
-			<div class="col-sm-4">
-				<div ng-repeat="todo in todos">
-					<div class="expired" ng-show="(expired(todo) && !completed(todo))">
-						<h4>Expired To-do's</h4>
-						<ul>
-							<li>{{ todo.text}}</li>
-						</ul>
+			<!-- Expired Todos Div -->
+			<div class="col-sm-4 expireds">
+				<button ng-click="showYou=!showYou">Toggle</button>
+				<div ng-show="showYou">
+					<h4>Expired To-do's</h4>
+					<div ng-repeat="todo in todos">
+						<div class="expired" ng-show="expired(todo)">
+							<!-- && !completed(todo) -->
+							<h4>Expired To-do's</h4>
+							<ul>
+								<input type="checkbox" ng-model="todo.completed" ng-checked="todo.completed" ng-change="archiveTodo(todo)">
+									{{ todo.text}}
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
+			<!-- Active Todos Div -->
 			<div class="col-sm-4">
 				<div class="checkbox" ng-repeat="todo in todos">
 					<label ng-show="!completed(todo)">
-						<input type="checkbox" ng-model="todo.completed" ng-checked="checked">
+						<input type="checkbox" ng-model="todo.completed" ng-checked="todo.completed">
 						{{ todo.text }}
 					</label>
 				</div>
@@ -53,14 +62,19 @@
 					<span class="fa fa-spinner fa-spin fa-3x"></span>
 				</p>
 			</div>
-			<div class="col-sm-4">
-				<h4>Completed To-do's</h4>
-				<div ng-repeat="todo in todos">
-					<div class="completed" ng-show="completed(todo)">
-						<ul>
-							<input type="checkbox" ng-model="todo.completed">
-								{{ todo.text}}
-						</ul>
+			<!-- Completed Todos Div -->
+			<div class="col-sm-4 completeds">
+				<!-- ng-hide="noneCompleted(todos) -->
+				<button ng-click="showMe=!showMe">Toggle</button>
+				<div ng-show="showMe">
+					<h4>Completed To-do's</h4>
+					<div ng-repeat="todo in todos">
+						<div ng-show="completed(todo)">
+							<ul>
+								<input type="checkbox" ng-model="todo.completed" ng-checked="todo.completed" ng-change="archiveTodo(todo)">
+									{{ todo.text}}
+							</ul>
+						</div>
 					</div>
 				</div>
 			</div>
