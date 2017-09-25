@@ -61,6 +61,19 @@ angular.module('todoController', [])
 			return todo.completed == true;
 		}
 
+		$scope.numberOfActiveTodos = function(todos) {
+			var numberActive = 0;
+			for (var i = 0; i < todos.length; i++) {
+				if (todos[i].completed == false) {
+					numberActive++;
+					// if (expired(todos[i]) == false ) {
+					// 		numberActive++;
+					// }
+				}
+			}
+			return numberActive;
+		};
+
 		$scope.showMe = true;
 		$scope.showYou = true;
 
@@ -72,10 +85,9 @@ angular.module('todoController', [])
 					for (var i = 0; i < todos.length; i++) {
 						if (todos[i].completed == true) {
 							return false;
-						} else {
-							return true;
 						}
 					}
+					return true;
 				};
 
 		// 2) Show expired tasks
@@ -91,18 +103,5 @@ angular.module('todoController', [])
 					// var currentTime = Date.now();
 					// return ( (((todo.created_at/1000) + sevenDaysInSecs) - (currentTime/1000)) <= 0 );
 				}
-
-		// 3) Badge counter of active tasks
-				$scope.numberOfActiveTodos = function(todos) {
-					var numberActive = 0;
-					for (var i = 0; i < todos.length; i++) {
-						if (todos[i].completed == false) {
-							if (!expired(todos[i])) {
-									numberActive++;
-							}
-						}
-					}
-					return numberActive;
-				};
 
 	}]);
