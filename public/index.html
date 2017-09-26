@@ -26,7 +26,6 @@
 
 		<div class="jumbotron text-center">
 			<h1>what To-Do <span class="badge">{{ numberOfActiveTodos(todos) }}</span></h1>
-			<!-- <span class="badge">{{ numberOfActiveTodos(todos) }}</span> -->
 		</div>
 
 		<div id="todo-list" class="row">
@@ -34,7 +33,7 @@
           <h3>No Todos yet!</h3>
       </div>
 			<!-- Expired Todos Div -->
-			<div class="col-sm-4 expireds">
+			<div class="col-sm-4 expireds" ng-hide="noneExpired(todos)">
 				<div ng-hide="showYou"><button ng-click="showYou=!showYou">Show</button></div>
 				<div ng-show="showYou">
 					<button ng-click="showYou=!showYou">Hide</button>
@@ -57,8 +56,8 @@
 					<label ng-show="!completed(todo)">
 						<input type="checkbox" ng-model="todo.completed" ng-checked="todo.completed" ng-change="archiveTodo(todo)">
 						{{ todo.text }}<br>
-						Priority: {{ todo.priority }}<br>
-						Due: {{ todo.due_date }}<br>
+						<div ng-hide="todo.priority=='low'">Priority: {{ todo.priority }}<br></div>
+						<div ng-hide="todo.due_date==''">Due: {{ todo.due_date }}<br></div>
 						<button ng-click="deleteTodo(todo._id)">Delete</button>
 					</label>
 				</div>
@@ -76,7 +75,7 @@
 						<div ng-show="completed(todo)">
 							<ul>
 								<input type="checkbox" ng-model="todo.completed" ng-checked="todo.completed" ng-change="archiveTodo(todo)">
-									{{ todo.text}}
+									{{ todo.text}}<button ng-click="deleteTodo(todo._id)">Delete</button>
 							</ul>
 						</div>
 					</div>
