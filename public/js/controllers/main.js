@@ -7,7 +7,6 @@ angular.module('todoController', [])
 		Todos.get()
 			.success(function(data) {
 				$scope.todos = data;
-				console.log(data);
 				$scope.loading = false;
 			})
 			.error(function(data) {
@@ -45,6 +44,17 @@ angular.module('todoController', [])
 				});
 		};
 
+		var reorderTodos = function() {
+			Todos.get()
+				.success(function(data) {
+					$scope.todos = data;
+					$scope.loading = false;
+				})
+				.error(function(data) {
+					console.log('Error: ' + data);
+				});
+		};
+
 		$scope.archiveTodo = function(todo){
 			$scope.loading = true;
 			var status = {completed: todo.completed};
@@ -55,6 +65,8 @@ angular.module('todoController', [])
 				.error(function(data) {
 					console.log('Error: ' + data);
 				});
+
+			reorderTodos();
 		};
 
 		$scope.completed = function(todo) {
@@ -77,31 +89,37 @@ angular.module('todoController', [])
 		$scope.showMe = true;
 		$scope.showYou = true;
 
-//////////////////////// Features in progress
-
-		// 1) Return true when no todos are completed
-				$scope.noneCompleted = function(todos) {
-					console.log(todos);
-					for (var i = 0; i < todos.length; i++) {
-						if (todos[i].completed == true) {
-							return false;
-						}
-					}
-					return true;
-				};
-
-		// 2) Show expired tasks
-				// Return true if todo is expired i.e. more than 7 days old
-				$scope.expired = function(todo) {
-					//in millisecs with logic #1
-					var sevenDaysInMilliSecs = 604800000;
-					var currentTime = Date.now();
-					var sevenDaysAgo = currentTime - sevenDaysInMilliSecs;
-					return (todo.created_at <= sevenDaysAgo);
-					// In secs with logic #2
-					// var sevenDaysInSecs = 604800;
-					// var currentTime = Date.now();
-					// return ( (((todo.created_at/1000) + sevenDaysInSecs) - (currentTime/1000)) <= 0 );
+		$scope.noneCompleted = function(todos) {
+			for (var i = 0; i < todos.length; i++) {
+				if (todos[i].completed == true) {
+					return false;
 				}
+			}
+			return true;
+		};
+
+///////// Features in progress
+		// 2) Show expired tasks
+		// Return true if todo is expired i.e. more than 7 days old
+		$scope.expired = function(todo) {
+			//in millisecs with logic #1
+			var sevenDaysInMilliSecs = 604800000;
+			var currentTime = Date.now();
+			var sevenDaysAgo = currentTime - sevenDaysInMilliSecs;
+			return (todo.created_at <= sevenDaysAgo);
+			// In secs with logic #2
+			// var sevenDaysInSecs = 604800;
+			// var currentTime = Date.now();
+			// return ( (((todo.created_at/1000) + sevenDaysInSecs) - (currentTime/1000)) <= 0 );
+		};
+
+		$scope.noneExpired = function(todos) {
+			for (var i = 0; i < todos.length; i++) {
+				if (expired(todos[i]) == true) {
+					return false;
+				}
+			}
+			return true;
+		};
 
 	}]);
