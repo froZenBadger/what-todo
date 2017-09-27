@@ -52,11 +52,11 @@
 			</div>
 			<!-- Active Todos Div -->
 			<div class="col-sm-4">
-				<div class="checkbox" ng-repeat="todo in todos">
+				<div class="checkbox" ng-repeat="todo in todos | orderBy: myPriority : reverse=true">
 					<label ng-show="!completed(todo)">
 						<input type="checkbox" ng-model="todo.completed" ng-checked="todo.completed" ng-change="archiveTodo(todo)">
 						{{ todo.text }}<br>
-						<div ng-hide="todo.priority=='low'">Priority: {{ todo.priority }}<br></div>
+						<div>Priority: {{ todo.priority }}<br></div>
 						<div ng-hide="todo.due_date==''">Due: {{ todo.due_date }}<br></div>
 						<button ng-click="deleteTodo(todo._id)">Delete</button>
 					</label>

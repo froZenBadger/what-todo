@@ -30,7 +30,7 @@ angular.module('todoController', [])
 					});
 			}
 		};
-
+/// delete
 		$scope.deleteTodo = function(id) {
 			$scope.loading = true;
 
@@ -43,7 +43,7 @@ angular.module('todoController', [])
 					console.log('Error: ' + data);
 				});
 		};
-
+///// reorder
 		var reorderTodos = function() {
 			Todos.get()
 				.success(function(data) {
@@ -72,7 +72,7 @@ angular.module('todoController', [])
 		$scope.completed = function(todo) {
 			return todo.completed == true;
 		}
-
+/// badge counter
 		$scope.numberOfActiveTodos = function(todos) {
 			var numberActive = 0;
 			for (var i = 0; i < todos.length; i++) {
@@ -88,7 +88,7 @@ angular.module('todoController', [])
 
 		$scope.showMe = true;
 		$scope.showYou = true;
-
+//// auto hide completeds
 		$scope.noneCompleted = function(todos) {
 			for (var i = 0; i < todos.length; i++) {
 				if (todos[i].completed == true) {
@@ -96,6 +96,17 @@ angular.module('todoController', [])
 				}
 			}
 			return true;
+		};
+/// order by priority
+		$scope.myPriority = function(todo) {
+			switch (todo.priority) {
+				case 'high':
+					return 3;
+				case 'medium':
+					return 2;
+				case 'low':
+					return 1;
+			}
 		};
 
 ///////// Features in progress
@@ -121,5 +132,7 @@ angular.module('todoController', [])
 			}
 			return true;
 		};
+
+
 
 	}]);
